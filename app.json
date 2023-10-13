@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "FlickaUI",
+    "slug": "FlickaUI",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIStatusBarStyle": "dark-content"
+      },
+      "bundleIdentifier": "com.cogzin.flicka"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.cogzin.flicka"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "black",
+      "translucent": true,
+      "barStyle": "light-content"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

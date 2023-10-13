@@ -1,0 +1,3 @@
+ios client = 821910283348-klpdbiepm4plngvn4g455k5vasliqief.apps.googleusercontent.com
+android sha1 = 1C6CB567EC2942965D385C1F01D965860869F41C
+android client = 821910283348-7bub1pfseoc52sgpbetc373rcfbmocms.apps.googleusercontent.com
