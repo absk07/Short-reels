@@ -1,62 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import VideoItem from '../components/VideoItem';
 
 const VideoScreen = ({ videoData }) => {
     const [activeVideoIndex, setActiveVideoIndex] = useState(0);
-    const { height } = useWindowDimensions();
-    const swiperRef = useRef(null);
-    const audioRefs = videoData.map(() => React.createRef());
+    const { height, width } = useWindowDimensions();
+
+    const scrollViewRef = useRef(null);
+
+    const handleScroll = (event) => {
+        const contentOffset = event.nativeEvent.contentOffset.y;
+        const newIndex = Math.floor(contentOffset / height);
+
+        if (newIndex !== activeVideoIndex) {
+            setActiveVideoIndex(newIndex);
+        }
+    };
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            const nextIndex = (activeVideoIndex + 1) % videoData.length;
-            setActiveVideoIndex(nextIndex);
-            // Pause the previous video's audio
-            if (audioRefs[activeVideoIndex].current) {
-                audioRefs[activeVideoIndex].current.pauseAsync();
-            }
-            // Play the current video's audio
-            if (audioRefs[nextIndex].current) {
-                audioRefs[nextIndex].current.playAsync();
-            }
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, [videoData, activeVideoIndex]);
-
-    const renderVideoItem = ({ item, index }) => {
-        const key = `${item.id}_${index}`;
-        const isActive = activeVideoIndex === index;
-        return (
-            <VideoItem key={key} data={item} isActive={isActive} audioRef={audioRefs[index]} />
-        );
-    };
-
-    const handleIndexChanged = (index) => {
-        setActiveVideoIndex(index);
-        // Pause the previous video's audio
-        if (audioRefs[activeVideoIndex].current) {
-            audioRefs[activeVideoIndex].current.pauseAsync();
+        if (activeVideoIndex === videoData.length) {
+            setActiveVideoIndex(0);
+            scrollViewRef.current.scrollToIndex({ index: 0, animated: false });
         }
-        // Play the current video's audio
-        if (audioRefs[index].current) {
-            audioRefs[index].current.playAsync();
-        }
-    };
+    }, [activeVideoIndex]);
 
     return (
         <SwiperFlatList
-            ref={swiperRef}
+            ref={scrollViewRef}
             vertical
-            data={Array.from(videoData).concat(videoData).concat(videoData)}
+            autoplayLoop={true}
+            autoplayLoopKeepAnimation={true}
+            data={videoData.concat({ ...videoData[0], id: videoData[0].id + videoData.length })}
             pagingEnabled
-            index={activeVideoIndex}
-            renderItem={renderVideoItem}
-            onIndexChanged={handleIndexChanged}
-            loop
-            autoplay={false}
+            renderItem={({ item, index }) => (
+                <VideoItem data={item} isActive={activeVideoIndex === index} />
+            )}
+            onScroll={handleScroll}
         />
     );
 };

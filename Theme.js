@@ -21,8 +21,8 @@ export default Theme = StyleSheet.create({
         backgroundColor: '#ebebeb',
         padding: 12,
         borderRadius: 5,
-        marginLeft: 15,
-        marginRight: 15,
+        marginLeft: 17,
+        marginRight: 17,
         fontFamily: 'Roboto_300Light'
     },
     Font: {

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FlickaUI",
-    "slug": "FlickaUI",
+    "name": "Flicka",
+    "slug": "Flicka",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,10 +18,11 @@
       "supportsTablet": true,
       "infoPlist": {
         "UIStatusBarStyle": "dark-content"
-      },
-      "bundleIdentifier": "com.cogzin.flicka"
+      }
     },
+    "scheme": "demo",
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
@@ -29,12 +30,18 @@
       "package": "com.cogzin.flicka"
     },
     "androidStatusBar": {
-      "backgroundColor": "black",
+      "backgroundColor": "#000000",
       "translucent": true,
       "barStyle": "light-content"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["@react-native-google-signin/google-signin"],
+    "extra": {
+      "eas": {
+        "projectId": "a4a0da0e-1a53-4cd4-9a1b-2c90bd61daa9"
+      }
     }
   }
 }

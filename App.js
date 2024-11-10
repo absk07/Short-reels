@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActivityIndicator } from 'react-native';
 import { useFont } from './useFont';
 import LoginScreen from './src/screens/LoginScreen';
+import OTPScreen from './src/screens/OTPScreen';
 import ReelScreen from './src/screens/ReelScreen';
 import CollectionScreen from './src/screens/CollectionScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
@@ -34,6 +35,13 @@ export default function App() {
                 <Stack.Screen
                   name="Login"
                   component={LoginScreen}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="OTP"
+                  component={OTPScreen}
                   options={{
                     headerShown: false,
                   }}

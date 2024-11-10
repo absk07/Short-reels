@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View, Dimensions } from 'react-native';
 
 const SearchContent = () => {
     const searchData = [
@@ -36,6 +36,8 @@ const SearchContent = () => {
         },
     ];
 
+    const { width, height } = Dimensions.get('window');
+
     return (
         <View style={{ marginBottom: 60 }}>
             {
@@ -50,7 +52,7 @@ const SearchContent = () => {
                                                 <TouchableOpacity key={imgIndex} style={{ paddingBottom: 2 }}>
                                                     <Image
                                                         source={img}
-                                                        style={{ width: 119, height: 119 }}
+                                                        style={{ width: width / 3.04, height: 120 }}
                                                     />
                                                 </TouchableOpacity>
                                             ))
@@ -61,14 +63,14 @@ const SearchContent = () => {
                         {
                             data.id === 1 ?
                                 (
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: 240, justifyContent: 'space-between' }}>
+                                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: width / 1.5, justifyContent: 'space-between' }}>
                                             {
                                                 data.images.slice(0, 4).map((img, imgIndex) => (
                                                     <TouchableOpacity key={imgIndex} style={{ paddingBottom: 2 }}>
                                                         <Image
                                                             source={img}
-                                                            style={{ width: 119, height: 119 }}
+                                                            style={{ width: width / 3.04, height: 120 }}
                                                         />
                                                     </TouchableOpacity>
                                                 ))
@@ -77,7 +79,7 @@ const SearchContent = () => {
                                         <TouchableOpacity style={{ marginLeft: 2 }}>
                                             <Image
                                                 source={data.images[5]}
-                                                style={{ width: 120, height: 240 }}
+                                                style={{ width: width / 3.06, height: 241 }}
                                             />
                                         </TouchableOpacity>
                                     </View>
@@ -90,16 +92,16 @@ const SearchContent = () => {
                                         <TouchableOpacity style={{ paddingRight: 2 }}>
                                             <Image
                                                 source={data.images[2]}
-                                                style={{ width: 240, height: 240 }}
+                                                style={{ width: width / 1.5, height: 241 }}
                                             />
                                         </TouchableOpacity>
                                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: 240, justifyContent: 'space-between' }}>
                                             {
-                                                data.images.slice(0, 3).map((img, imgIndex) => (
+                                                data.images.slice(0, 2).map((img, imgIndex) => (
                                                     <TouchableOpacity key={imgIndex} style={{ paddingBottom: 2 }}>
                                                         <Image
                                                             source={img}
-                                                            style={{ width: 119, height: 119 }}
+                                                            style={{ width: width / 3.04, height: 120 }}
                                                         />
                                                     </TouchableOpacity>
                                                 ))

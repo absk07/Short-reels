@@ -19,46 +19,72 @@ import Theme from "../../Theme";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-WebBrowser.maybeCompleteAuthSession();
+// WebBrowser.maybeCompleteAuthSession();
 
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [mobileNo, setMobileNo] = useState("");
-  const [userInfo,setUserInfo]=useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   //hooks
-  const [request,response,promptAsync] =Google.useAuthRequest({
-    androidClientId:"821910283348-7bub1pfseoc52sgpbetc373rcfbmocms.apps.googleusercontent.com",
-    iosClientId:"821910283348-klpdbiepm4plngvn4g455k5vasliqief.apps.googleusercontent.com"
-  })
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   webClientId: "821910283348-q8go6gnm9bh8o8oddjgfkvgm8fo0mrdo.apps.googleusercontent.com",
+  //   androidClientId: "821910283348-7bub1pfseoc52sgpbetc373rcfbmocms.apps.googleusercontent.com",
+  //   iosClientId: "821910283348-klpdbiepm4plngvn4g455k5vasliqief.apps.googleusercontent.com"
+  // })
 
-  //useEffect(()=>{handleGoogleSignIn();},[response]);
+  // useEffect(() => { 
+  //   handleGoogleSignIn(); 
+  // }, [response]);
 
-  async function handleGoogleSignIn(){
-    console.log('started');
-    if(response!=null && response.type==='success'){
-      await getUserInfo(response.authentication.accessToken);
-    }else{
-      console.log('Not triggering');
-    }
-  }
+  // async function handleGoogleSignIn() {
+  //   const user = await AsyncStorage.getItem('user');
+  //   if (!user) {
+  //     if (response?.type === 'success') {
+  //       await getUserInfo(response.authentication.accessToken);
+  //     }
+  //   } else {
+  //     setUserInfo(JSON.parse(user));
+  //   }
+  // }
 
-  const getUserInfo = async (token) =>{
-    if(!token) return;
+  // const getUserInfo = async (token) => {
+  //   if (!token) return;
+  //   try {
+  //     const response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+  //       headers: { Authorization: `Bearer ${token}` }
+  //     })
+  //     const user = await response.json();
+  //     await AsyncStorage.setItem('user', JSON.stringify(user));
+  //     setUserInfo(user);
+  //     console.log(user);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: "205220877887-5qn5h85j5q7c9quah9tarjlquv2954si.apps.googleusercontent.com",
+      androidClientId: "205220877887-3a1e5reh8rtg1pdn000fk75gasu2s9j1.apps.googleusercontent.com"
+    });
+  }, []);
+
+  const signIn = async () => {
     try {
-      const response=await fetch("https://www.googleapis.com/userinfo/v2/me",
-      {
-        headers : {Authorization: `Bearer ${token}`}
-      })
-      const user=await response.json();
-      setUserInfo(user);
-      console.log(user);
+      await GoogleSignin.hasPlayServices();
+      const usrInfo = await GoogleSignin.signIn();
+      setUserInfo(usrInfo);
+      console.log(usrInfo)
+      navigation.navigate('Video');
     } catch (error) {
-      console.log(error);
+      console.log('Problem during sigin using google', error)
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,7 +97,6 @@ const LoginScreen = () => {
         }}>
         <Spacer>
           <View style={styles.iconContainer}>
-            <Text>{JSON.stringify(userInfo)}</Text>
             <Image
               source={require("../../assets/logo.png")}
               style={{
@@ -105,7 +130,7 @@ const LoginScreen = () => {
         <Spacer>
           <TouchableOpacity
             style={Theme.Button}
-            onPress={() => navigation.navigate("Video")}
+            onPress={() => navigation.navigate("OTP")}
           >
             <Text style={Theme.ButtonText}>
               <Ionicons name="phone-portrait-outline" size={20} color="white" />{" "}
@@ -127,7 +152,7 @@ const LoginScreen = () => {
         <Spacer>
           <TouchableOpacity
             style={Theme.Button}
-            onPress={promptAsync}>
+            onPress={signIn}>
             <Text style={Theme.ButtonText}>
               <Ionicons name="logo-google" size={20} color="white" /> Sign in
               with Google
